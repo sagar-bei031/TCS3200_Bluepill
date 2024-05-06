@@ -32,6 +32,14 @@ extern "C"
         uint32_t Green;
     } TCS3200_ColorFreq;
 
+    typedef enum
+    {
+        BALL_NONE,
+        BALL_RED,
+        BALL_PURPLE,
+        BALL_BLUE
+    } BallColor;
+
     extern TIM_HandleTypeDef *TCS3200_htim;
     extern TCS3200_ColorFreq colorFreq;
 
@@ -42,6 +50,8 @@ extern "C"
     void TCS3200_SetColor(TCS3200_Color color);
 
     void TCS3200_TimerCallback();
+
+    BallColor GetBallColor();
 
 #ifdef __cplusplus
 }

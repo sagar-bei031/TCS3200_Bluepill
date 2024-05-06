@@ -101,8 +101,20 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    printf("RB kHz: %lu %lu\n", colorFreq.Red, colorFreq.Blue);
-    HAL_Delay(100);
+    
+    if (GetBallColor() == BALL_RED)
+    {
+      printf("RED\n");
+    }
+    else if (GetBallColor() == BALL_BLUE)
+    {
+      printf("BLUE\n");
+    }
+    else if (GetBallColor() == BALL_PURPLE)
+    {
+      printf("PURPLE\n");
+    }
+      // printf("RBG kHz: %lu %lu %lu %d\n", colorFreq.Red, colorFreq.Blue, colorFreq.Green, GetBallColor());
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
