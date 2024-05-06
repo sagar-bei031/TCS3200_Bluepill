@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include "usbd_cdc_if.h"
 #include "TCS3200.h"
+#include "crc8.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +58,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint8_t CRC_TABLE[CRC8_TABLE_SIZE];
 /* USER CODE END 0 */
 
 /**
@@ -93,18 +94,23 @@ int main(void)
   MX_TIM1_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+  init_CRC_Table(CRC_TABLE, 7);
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_Base_Start_IT(&htim2);
   TCS3200_Init();
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
   uint32_t last_transmit = 0;
   char c;
+  uint8_t packet[3] = {0xA5, 0, 0};
   BallColor ballColor;
+  int isBallDetected;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    isBallDetected = 1;
     ballColor = GetBallColor();
 
     if (HAL_GetTick() - last_transmit >= 10)
@@ -127,9 +133,21 @@ int main(void)
       else
       {
         c = 'N';
+        isBallDetected = 0;
       }
 
-      CDC_Transmit_FS((uint8_t*)&c, 1);
+      if (isBallDetected)
+      {
+        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+      }
+      else
+      {
+        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+      }
+
+      packet[1] = (uint8_t)c;
+      packet[2] = get_CRC_Hash(packet+1, 1, CRC_TABLE);
+      CDC_Transmit_FS(packet, 3);
       last_transmit = HAL_GetTick();
     }
     /* USER CODE END WHILE */

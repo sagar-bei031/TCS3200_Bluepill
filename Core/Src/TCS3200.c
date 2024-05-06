@@ -125,7 +125,7 @@ BallColor GetBallColor()
     {
         ballColor = BALL_RED;
     }
-    else if (colorFreq.Red > 12 && colorFreq.Red < 20 && colorFreq.Blue - colorFreq.Red > 20)
+    else if (colorFreq.Red > 10 && colorFreq.Red < 30 && colorFreq.Blue - colorFreq.Red > 20)
     {
         ballColor = BALL_PURPLE;
     }
