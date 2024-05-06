@@ -150,6 +150,8 @@ int main(void)
       CDC_Transmit_FS(packet, 3);
       last_transmit = HAL_GetTick();
     }
+
+    // printf("%ld %ld %c\n", colorFreq.Red, colorFreq.Blue, c);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

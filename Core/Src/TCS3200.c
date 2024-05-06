@@ -121,11 +121,11 @@ BallColor GetBallColor()
     {
         ballColor = BALL_BLUE;
     }
-    else if (colorFreq.Red > 35 && colorFreq.Red < 50 && colorFreq.Blue - colorFreq.Red < 15)
+    else if (colorFreq.Red > 20 && colorFreq.Red < 60 && colorFreq.Blue - colorFreq.Red < 18)
     {
         ballColor = BALL_RED;
     }
-    else if (colorFreq.Red > 10 && colorFreq.Red < 30 && colorFreq.Blue - colorFreq.Red > 20)
+    else if (colorFreq.Red > 10 && colorFreq.Red < 20 && colorFreq.Blue - colorFreq.Red > 10)
     {
         ballColor = BALL_PURPLE;
     }
